@@ -1,0 +1,47 @@
+header {
+    font-size: 0.9em;
+}
+
+.content {
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.navbar {
+    margin-top: 37px;
+    z-index: 900;
+}
+
+#spinner {
+    display: none;    
+}
+
+#spinner.htmx-request {
+    display: block;
+}
+
+img.hidden {
+    display: none;
+}
+
+img.hidden {
+    border: 1px solid #ddd;
+}
+
+.ep-plant-name {
+    font-size: 1.5em;
+}
+
+.ep-plant-list {
+    padding: 2px;
+    border: 1px solid #ddd;
+}
+
+.ep-plant-entries {
+    padding: 1em;
+}
+
+.nav-link.active {
+    font-weight: bold;
+
+}

@@ -1,0 +1,39 @@
+{% extends "easy_plants/base.html" %}
+
+{% block title %}
+    - {{ plant.name }}
+{% endblock title %}
+
+
+{% block content %}
+    <h1>{{ plant.name }}</h1>
+    <div class="pb-2">
+        <button class="btn btn-primary" _="on click call startRotation()">Start</button>
+        <button class="btn btn-secondary" _="on click call stopRotation()">Stop</button>
+        <a href="{% url 'easy_plants:update-plant' plant.id %}" class="btn btn-warning">Edit</a>
+    </div>
+    {% for image in plant.images.all %} 
+        <img id="ep-plant-image-{{ forloop.counter }}"
+                class="ep-plant-image{% if forloop.first %} displayed{% else %} hidden{% endif %}"
+                src="{{ image.image.url }}" 
+                alt="{{ image.image.name }}" 
+                height="400px" />
+    {% endfor %}
+    <form class="pt-2"
+        hx-trigger="submit"
+        hx-post="{% url 'easy_plants:add-plant-entry' %}"
+        hx-select="#ep-plant-entries"
+        hx-target="#ep-plant-entries"
+        hx-swap="outerHTML"
+        _="on htmx:afterRequest set #ep-entry-input.value to ''">
+            {% csrf_token %}
+            <input id="ep-entry-input" class="form-control" type="text" name="plant-entry" placeholder="Add new entry" />
+            <input type="hidden" name="plant-id" value="{{ plant.id }}" />
+    </form>
+    <ul class="ep-plant-entries" 
+        id="ep-plant-entries">
+        {% for entry in plant.entries.all %}
+            <li class="ep-plant-entry">Day {{ entry.day }}: {{ entry.text }} </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
