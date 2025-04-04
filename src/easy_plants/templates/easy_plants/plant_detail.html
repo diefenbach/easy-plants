@@ -33,7 +33,11 @@
     <ul class="ep-plant-entries" 
         id="ep-plant-entries">
         {% for entry in plant.entries.all %}
-            <li class="ep-plant-entry">Day {{ entry.day }}: {{ entry.text }} </li>
+            <li class="ep-plant-entry">
+                Day {{ entry.day }}: {{ entry.text }}
+                <a href="{% url 'easy_plants:delete-plant-entry' entry.id %}" class="btn btn-danger btn-sm">Delete</a>
+                <a href="{% url 'easy_plants:update-plant-entry' entry.id %}" class="btn btn-warning btn-sm">Edit</a>
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}

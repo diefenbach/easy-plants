@@ -2,6 +2,7 @@ from math import ceil
 from django.db import models
 from django.utils import timezone
 from enum import Enum
+from django.urls import reverse
 
 
 class PlantState(Enum):
@@ -83,6 +84,9 @@ class Plant(models.Model):
             return PlantState.STARTED
         else:
             return None
+        
+    def get_absolute_url(self):
+        return reverse("easy_plants:plant-detail", kwargs={"pk": self.id})
 
 
 class PlantImage(models.Model):
@@ -112,3 +116,6 @@ class PlantEntry(models.Model):
 
         delta = self.date.date() - self.plant.day_one
         return delta.days + 1
+
+    def get_absolute_url(self):
+        return reverse("easy_plants:plant_entry_detail", kwargs={"pk": self.id})

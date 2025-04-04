@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.utils.timezone import datetime
 from django.views.generic import CreateView, TemplateView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, DeleteView
 from .models import Plant, PlantEntry, PlantImage, PlantState
 
 
@@ -96,6 +96,25 @@ class PlantUpdateView(UpdateView):
             PlantImage.objects.create(image=image, date=datetime.now(), plant=form.instance)
 
         return super().form_valid(form)
+
+
+class PlantEntryUpdateView(UpdateView):
+    model = PlantEntry
+    fields = ["date", "text"]
+    template_name = "easy_plants/update_plant_entry.html"
+    context_object_name = "plant_entry"
+
+    def get_success_url(self):
+        return reverse_lazy("easy_plants:plant-detail", kwargs={"pk": self.object.plant_id})
+
+
+class PlantEntryDeleteView(DeleteView):
+    model = PlantEntry
+    template_name = "easy_plants/delete_plant_entry.html"
+    context_object_name = "plant_entry"
+
+    def get_success_url(self):
+        return reverse_lazy("easy_plants:plant-detail", kwargs={"pk": self.object.plant_id})
 
 
 def add_plant_entry(request):

@@ -1,0 +1,11 @@
+{% extends "easy_plants/base.html" %}
+
+{% block content %}
+<h1>Delete Plant Entry</h1>
+<p>Are you sure you want to delete this entry?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Yes, delete</button>
+    <a class="btn btn-warning" href="{{ plant_entry.plant.get_absolute_url }}">Cancel</a>
+</form>
+{% endblock %}
