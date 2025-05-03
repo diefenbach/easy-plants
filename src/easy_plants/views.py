@@ -1,15 +1,14 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.timezone import datetime
 from django.views.generic import CreateView, TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, DeleteView
-from .models import Plant, PlantEntry, PlantImage, PlantState
 
-
-from easy_plants.models import Plant, PlantImage
+from easy_plants.models import Plant, PlantEntry, PlantImage, PlantState
 from easy_plants.forms import PlantForm
-
 
 class EPView:
     """
@@ -24,7 +23,7 @@ class EPView:
         return context
 
 
-class HomeView(TemplateView, EPView):
+class HomeView(LoginRequiredMixin, TemplateView, EPView):
     title = "Home"
     template_name = "easy_plants/home.html"
 
@@ -37,7 +36,7 @@ class HomeView(TemplateView, EPView):
         return context_data
 
 
-class ArchiveView(TemplateView):
+class ArchiveView(LoginRequiredMixin, TemplateView):
     title = "Archive"
     template_name = "easy_plants/home.html"
 
@@ -50,7 +49,7 @@ class ArchiveView(TemplateView):
         return context_data
 
 
-class PlantCreateView(CreateView):
+class PlantCreateView(LoginRequiredMixin, CreateView):
     model = Plant
     form_class = PlantForm
     success_url = reverse_lazy("easy_plants:home")
@@ -69,20 +68,20 @@ class PlantCreateView(CreateView):
         return result
 
 
-class PlantImageCreateView(CreateView):
+class PlantImageCreateView(LoginRequiredMixin, CreateView):
     model = PlantImage
     fields = ["plant", "date", "image"]
     success_url = reverse_lazy("easy_plants:add-plant-image")
     template_name = "easy_plants/add_plant_image.html"
 
 
-class PlantDetailView(DetailView):
+class PlantDetailView(LoginRequiredMixin, DetailView):
     model = Plant
     template_name = "easy_plants/plant_detail.html"
     context_object_name = "plant"
 
 
-class PlantUpdateView(UpdateView):
+class PlantUpdateView(LoginRequiredMixin, UpdateView):
     model = Plant
     form_class = PlantForm
     success_url = reverse_lazy("easy_plants:home")
@@ -98,7 +97,7 @@ class PlantUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class PlantEntryUpdateView(UpdateView):
+class PlantEntryUpdateView(LoginRequiredMixin, UpdateView):
     model = PlantEntry
     fields = ["date", "text"]
     template_name = "easy_plants/update_plant_entry.html"
@@ -108,7 +107,7 @@ class PlantEntryUpdateView(UpdateView):
         return reverse_lazy("easy_plants:plant-detail", kwargs={"pk": self.object.plant_id})
 
 
-class PlantEntryDeleteView(DeleteView):
+class PlantEntryDeleteView(LoginRequiredMixin, DeleteView):
     model = PlantEntry
     template_name = "easy_plants/delete_plant_entry.html"
     context_object_name = "plant_entry"
@@ -117,6 +116,7 @@ class PlantEntryDeleteView(DeleteView):
         return reverse_lazy("easy_plants:plant-detail", kwargs={"pk": self.object.plant_id})
 
 
+@login_required
 def add_plant_entry(request):
     plant_id = request.POST.get("plant-id")
     text = request.POST.get("plant-entry")
