@@ -29,7 +29,15 @@
                     <div class="col-5 text-end user-select-none">
                         {% if user.is_authenticated %}
                             {% firstof user.get_short_name user.get_username %}
-                            · <a class="link-light link-underline-opacity-0 link-underline-opacity-100-hover" href="{%  url 'admin:logout' %}">Logout</a>
+                            · 
+                            <form method="post" action="{% url 'logout' %}" style="display:inline">
+                                {% csrf_token %}
+                                <button class="btn btn-link link-light link-underline-opacity-0 link-underline-opacity-100-hover p-0" 
+                                        style="font-size:14.4px; border:none; position: relative; top:-1px" 
+                                        type="submit">
+                                        Logout
+                                </button>
+                            </form>
                             {% if user.is_superuser %}
                                 | <a class="link-light link-underline-opacity-0 link-underline-opacity-100-hover" href="{% url 'admin:index' %}">Admin</a>
                             {% endif %}
