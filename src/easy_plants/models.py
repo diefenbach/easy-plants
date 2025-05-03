@@ -115,7 +115,7 @@ class PlantEntry(models.Model):
             return 0
 
         delta = self.date.date() - self.plant.day_one
-        return delta.days + 1
+        return delta.days
 
     def get_absolute_url(self):
         return reverse("easy_plants:plant_entry_detail", kwargs={"pk": self.id})
