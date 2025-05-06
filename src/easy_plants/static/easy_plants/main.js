@@ -29,14 +29,12 @@ function stopRotation() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialisiere Flatpickr für Datumsfelder
-    flatpickr(".dateinput, input[type='date']", {
+    flatpickr(".dateinput", {
         dateFormat: "d.m.Y",
         locale: "de",
         allowInput: true
     });
 
-    // Initialisiere Flatpickr für Datum/Zeit-Felder
     flatpickr(".datetimeinput", {
         enableTime: true,
         dateFormat: "d.m.Y H:i",
