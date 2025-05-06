@@ -27,3 +27,11 @@ function stopRotation() {
     clearInterval(interval);
     interval = null;
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    flatpickr(".dateinput, input[type='date']", {
+        dateFormat: "d.m.Y",
+        locale: "de",
+        allowInput: true
+    });
+});
