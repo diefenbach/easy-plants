@@ -30,14 +30,29 @@
             <input id="ep-entry-input" class="form-control" type="text" name="plant-entry" placeholder="Add new entry" />
             <input type="hidden" name="plant-id" value="{{ plant.id }}" />
     </form>
-    <ul class="ep-plant-entries" 
-        id="ep-plant-entries">
+    <table class="mt-4 table" id="ep-plant-entries">
+        <tr>
+            <th>Date</th>
+            <th>Day</th>
+            <th>Text</th>
+            <th>Manage</th>
+        </tr>               
         {% for entry in plant.entries.all %}
-            <li class="ep-plant-entry">
-                Day {{ entry.day }}: {{ entry.text }}
-                <a href="{% url 'easy_plants:delete-plant-entry' entry.id %}" class="btn btn-danger btn-sm">Delete</a>
-                <a href="{% url 'easy_plants:update-plant-entry' entry.id %}" class="btn btn-warning btn-sm">Edit</a>
-            </li>
+            <tr class="ep-plant-entry">
+                <td>{{ entry.date|date:"SHORT_DATE_FORMAT" }}</td>
+                <td>{{ entry.day }}</td>
+                <td>{{ entry.text }}</td>
+                <td>
+                    <a href="{% url 'easy_plants:delete-plant-entry' entry.id %}" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                    <a href="{% url 'easy_plants:update-plant-entry' entry.id %}" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                </td>
+            </tr>
         {% endfor %}
-    </ul>
+        
+    </table>
+
 {% endblock %}
