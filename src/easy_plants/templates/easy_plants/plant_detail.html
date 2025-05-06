@@ -12,11 +12,11 @@
         <button class="btn btn-secondary" _="on click call stopRotation()">Stop</button>
         <a href="{% url 'easy_plants:update-plant' plant.id %}" class="btn btn-warning">Edit</a>
     </div>
-    {% for image in plant.images.all %} 
+    {% for image in plant.images.all %}
         <img id="ep-plant-image-{{ forloop.counter }}"
                 class="ep-plant-image{% if forloop.first %} displayed{% else %} hidden{% endif %}"
-                src="{{ image.image.url }}" 
-                alt="{{ image.image.name }}" 
+                src="{{ image.image.url }}"
+                alt="{{ image.image.name }}"
                 height="400px" />
     {% endfor %}
     <form class="pt-2"
@@ -36,7 +36,7 @@
             <th>Day</th>
             <th>Text</th>
             <th>Manage</th>
-        </tr>               
+        </tr>
         {% for entry in plant.entries.all %}
             <tr class="ep-plant-entry">
                 <td>{{ entry.date|date:"SHORT_DATE_FORMAT" }}</td>
@@ -52,7 +52,7 @@
                 </td>
             </tr>
         {% endfor %}
-        
+
     </table>
 
 {% endblock %}

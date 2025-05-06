@@ -84,7 +84,7 @@ class Plant(models.Model):
             return PlantState.STARTED
         else:
             return None
-        
+
     def get_absolute_url(self):
         return reverse("easy_plants:plant-detail", kwargs={"pk": self.id})
 

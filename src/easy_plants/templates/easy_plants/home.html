@@ -30,22 +30,22 @@
                 </div>
                 <div>
                     {% if plant.images.last %}
-                        <img src="{{ plant.images.last.image.url }}" 
-                            alt="Plant" 
-                            width="150px"                        
+                        <img src="{{ plant.images.last.image.url }}"
+                            alt="Plant"
+                            width="150px"
                             height="230px">
                     {% endif %}
                 </div>
                 <div class="ps-2 container-fluid">
                     <div class="row">
-                        <div class="col-md-4 col-sm-12">                        
+                        <div class="col-md-4 col-sm-12">
                             <div class="ep-plant-name">
                                 {{ plant.name }}
                             </div>
                             <div class="ep-plant-start">Start: {{ plant.start|date:"SHORT_DATE_FORMAT" }}</div>
                             {% if plant.day_one %}
                                 <div class="ep-plant-flowering-start">
-                                    Total Day: {{ plant.get_day_and_week.0 }}                                                                  
+                                    Total Day: {{ plant.get_day_and_week.0 }}
                                 </div>
                                 <div class="ep-plant-flowering-start">
                                     Total Week: {{ plant.get_day_and_week.1 }}
@@ -54,19 +54,19 @@
                             {% if plant.flowering_start %}
                                 <div class="ep-plant-flowering-start">Flowering Day: {{ plant.get_flowering_day_and_week.0 }}</div>
                                 <div class="ep-plant-flowering-start">Flowering Week: {{ plant.get_flowering_day_and_week.1 }}</div>
-                            {% endif %}                    
+                            {% endif %}
                             {% if plant.harvested %}
                                 <div class="ep-plant-flowering-start pt-1">Harvested: {{ plant.harvested }}</div>
                                 {% if plant.drying_end %}
                                     <div class="ep-plant-flowering-start">Drying days: {{ plant.get_drying_day }}</div>
-                                {% else %}  
+                                {% else %}
                                     <div class="ep-plant-flowering-start">Drying Day: {{ plant.get_drying_day }}</div>
                                 {% endif %}
-                            {% endif %}                    
+                            {% endif %}
                         </div>
                         <div class="col-md-4 col-sm-12">
                             <div class="ep-plant-name">Latest</div>
-                            {% if plant.entries.exists %}   
+                            {% if plant.entries.exists %}
                                 <div>Day {{ plant.entries.first.day }}: {{ plant.entries.first.text }}</div>
                             {% endif %}
                         </div>
@@ -85,9 +85,9 @@
                                 <div>Yield kief: {{ plant.yield_kief }}g</div>
                             {% endif %}
                         </div>
-                    </div>                
-                </div>    
+                    </div>
+                </div>
             </div>
         </a>
-    {% endfor %}    
+    {% endfor %}
 {% endblock %}

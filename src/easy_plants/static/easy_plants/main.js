@@ -17,7 +17,7 @@ function _rotateImages() {
 
     current_image.classList.add("hidden");
     current_image.classList.remove("displayed");
-    
+
     images[nextIdx].classList.add("displayed");
     images[nextIdx].classList.remove("hidden");
 }
