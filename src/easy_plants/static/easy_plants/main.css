@@ -43,5 +43,8 @@ img.hidden {
 
 .nav-link.active {
     font-weight: bold;
+}
 
+.ep-badge {
+    background-color: red;
 }
