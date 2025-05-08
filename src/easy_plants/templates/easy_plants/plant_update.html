@@ -7,6 +7,7 @@
         enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-primary">Update Entry</button>
+        <button type="submit" class="btn btn-primary">Update Plant</button>
+        <button type="button" class="btn btn-secondary" _="on click go back">Cancel</button>
     </form>
 {% endblock %}

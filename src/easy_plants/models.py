@@ -6,6 +6,9 @@ from django.urls import reverse
 
 
 class PlantState(Enum):
+    """
+    A model to represent a plant state.
+    """
     NOT_STARTED = 0
     STARTED = 1
     VEGETATIVE = 2
@@ -15,7 +18,9 @@ class PlantState(Enum):
 
 
 class Plant(models.Model):
-
+    """
+    A model to represent a plant.
+    """
     name = models.CharField(max_length=100)
     type = models.CharField(max_length=100)
 
@@ -32,6 +37,9 @@ class Plant(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ["name"]
 
     def get_day_and_week(self):
         if not self.day_one:
@@ -90,6 +98,9 @@ class Plant(models.Model):
 
 
 class PlantImage(models.Model):
+    """
+    A model to represent a plant image.
+    """
     plant = models.ForeignKey(Plant, on_delete=models.CASCADE, related_name="images")
     date = models.DateField()
     image = models.ImageField(upload_to="plant_images")
@@ -99,6 +110,9 @@ class PlantImage(models.Model):
 
 
 class PlantEntry(models.Model):
+    """
+    A model to represent a plant entry.
+    """
     plant = models.ForeignKey(Plant, on_delete=models.CASCADE, related_name="entries")
     date = models.DateTimeField()
     text = models.CharField(max_length=255)

@@ -10,22 +10,13 @@ from django.views.generic.edit import UpdateView, DeleteView
 from easy_plants.models import Plant, PlantEntry, PlantImage, PlantState
 from easy_plants.forms import PlantForm
 
-class EPView:
+
+class PlantActiveView(LoginRequiredMixin, TemplateView):
     """
-    A simple mixin to add a title to a view
+    A view to display the active plants.
     """
-
-    title = ""
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = self.title
-        return context
-
-
-class HomeView(LoginRequiredMixin, TemplateView, EPView):
     title = "Home"
-    template_name = "easy_plants/home.html"
+    template_name = "easy_plants/plant_list.html"
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -36,13 +27,16 @@ class HomeView(LoginRequiredMixin, TemplateView, EPView):
         return context_data
 
 
-class ArchiveView(LoginRequiredMixin, TemplateView):
+class PlantArchiveView(LoginRequiredMixin, TemplateView):
+    """
+    A view to display the archived plants.
+    """
     title = "Archive"
-    template_name = "easy_plants/home.html"
+    template_name = "easy_plants/plant_list.html"
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data["plants"] = Plant.objects.filter(archived=True)
+        context_data["plants"] = Plant.objects.filter(archived=True).order_by("-harvested")
         context_data["PLANT_STATES"] = PlantState.__members__
         context_data["title"] = self.title
 
@@ -53,7 +47,7 @@ class PlantCreateView(LoginRequiredMixin, CreateView):
     model = Plant
     form_class = PlantForm
     success_url = reverse_lazy("easy_plants:home")
-    template_name = "easy_plants/add_plant.html"
+    template_name = "easy_plants/plant_add.html"
 
     def form_valid(self, form):
         # first, we have to save plant instance ...
@@ -82,6 +76,9 @@ class PlantDetailView(LoginRequiredMixin, DetailView):
 
 
 class PlantUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    A view to update a plant.
+    """
     model = Plant
     form_class = PlantForm
     success_url = reverse_lazy("easy_plants:home")
@@ -90,7 +87,6 @@ class PlantUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         images = form.cleaned_data["images"]
 
-        # in order to save the images to it
         for image in images:
             PlantImage.objects.create(image=image, date=datetime.now(), plant=form.instance)
 
@@ -98,9 +94,12 @@ class PlantUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class PlantEntryUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    A view to update a plant entry.
+    """
     model = PlantEntry
     fields = ["date", "text"]
-    template_name = "easy_plants/update_plant_entry.html"
+    template_name = "easy_plants/plant_entry_update.html"
     context_object_name = "plant_entry"
 
     def get_success_url(self):
@@ -108,8 +107,11 @@ class PlantEntryUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class PlantEntryDeleteView(LoginRequiredMixin, DeleteView):
+    """
+    A view to delete a plant entry.
+    """
     model = PlantEntry
-    template_name = "easy_plants/delete_plant_entry.html"
+    template_name = "easy_plants/plant_entry_delete.html"
     context_object_name = "plant_entry"
 
     def get_success_url(self):

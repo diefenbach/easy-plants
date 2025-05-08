@@ -10,6 +10,10 @@ class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
 class MultipleFileField(forms.FileField):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault("widget", MultipleFileInput())
@@ -42,3 +46,10 @@ class PlantForm(forms.ModelForm):
             "yield_kief",
             "archived",
         ]
+        widgets = {
+            'start': DateInput(),
+            'day_one': DateInput(),
+            'flowering_start': DateInput(),
+            'harvested': DateInput(),
+            'drying_end': DateInput(),
+        }

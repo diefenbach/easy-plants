@@ -1,8 +1,8 @@
 from django.urls import path
 
 from easy_plants.views import (
-    ArchiveView,
-    HomeView,
+    PlantActiveView,
+    PlantArchiveView,
     PlantCreateView,
     PlantDetailView,
     PlantImageCreateView,
@@ -15,8 +15,8 @@ from easy_plants.views import (
 app_name = "easy_plants"
 
 urlpatterns = [
-    path("", HomeView.as_view(), name="home"),
-    path("archive", ArchiveView.as_view(), name="archive"),
+    path("", PlantActiveView.as_view(), name="home"),
+    path("archive", PlantArchiveView.as_view(), name="archive"),
     path("add-plant/", PlantCreateView.as_view(), name="add-plant"),
     path("plant/<int:pk>/update", PlantUpdateView.as_view(), name="update-plant"),
     path("plant/<int:plant_pk>/add-plant-image/", PlantImageCreateView.as_view(), name="add-plant-image"),
