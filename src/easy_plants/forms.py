@@ -1,17 +1,12 @@
 from django import forms
 from .models import Plant
 
-
 from easy_plants.models import Plant
 
 
 # see https://docs.djangoproject.com/en/5.1/topics/class-based-views/generic-editing/#form-handling-with-class-based-views
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
-
-
-class DateInput(forms.DateInput):
-    input_type = 'date'
 
 
 class MultipleFileField(forms.FileField):
@@ -46,10 +41,3 @@ class PlantForm(forms.ModelForm):
             "yield_kief",
             "archived",
         ]
-        widgets = {
-            'start': DateInput(),
-            'day_one': DateInput(),
-            'flowering_start': DateInput(),
-            'harvested': DateInput(),
-            'drying_end': DateInput(),
-        }
