@@ -8,82 +8,88 @@
 
 {% block content %}
     <h1>Your Plants</h1>
-    <a class="btn btn-primary" href="{% url 'easy_plants:add-plant' %}">Add Plant</a>
+    <a class="btn btn-primary mb-3" href="{% url 'easy_plants:add-plant' %}">Add Plant</a>
     {% for plant in plants %}
         <a href="{% url 'easy_plants:plant-detail' plant.id %}" class="text-decoration-none text-reset">
-
-            <div class="ep-plant-list d-flex mt-2 position-relative">
-                <div class="position-absolute" style="top: 5px; right: 10px; z-index: 10;">
-                    {% if plant.get_state == PLANT_STATES.NOT_STARTED %}
-                        <span class="badge bg-secondary">Not Started</span>
-                    {% elif plant.get_state == PLANT_STATES.DRYING %}
-                        <span class="badge bg-info">Drying</span>
-                    {% elif plant.get_state == PLANT_STATES.STARTED %}
-                        <span class="badge bg-primary">Started</span>
-                    {% elif plant.get_state == PLANT_STATES.FLOWERING %}
-                        <span class="badge bg-warning">Flowering</span>
-                    {% elif plant.get_state == PLANT_STATES.VEGETATIVE %}
-                        <span class="badge bg-success">Vegetative</span>
-                    {% elif plant.get_state == PLANT_STATES.FINISHED %}
-                        <span class="badge bg-danger">Finished</span>
-                    {% endif %}
+            <div class="card mb-3 shadow">
+                <div class="card-header">
+                    <h5 class="card-title">{{ plant.name }}</h5>
                 </div>
-                <div>
-                    {% if plant.images.last %}
-                        <img src="{{ plant.images.last.image.url }}"
-                            alt="Plant"
-                            width="150px"
-                            height="230px">
-                    {% endif %}
-                </div>
-                <div class="ps-2 container-fluid">
-                    <div class="row">
-                        <div class="col-md-4 col-sm-12">
-                            <div class="ep-plant-name">
-                                {{ plant.name }}
+                <div class="card-body p-2">
+                    <div class="d-flex position-relative">
+                        <div class="position-absolute" style="top: 5px; right: 10px; z-index: 10;">
+                            {% if plant.get_state == PLANT_STATES.NOT_STARTED %}
+                                <span class="badge bg-secondary">Not Started</span>
+                            {% elif plant.get_state == PLANT_STATES.DRYING %}
+                                <span class="badge bg-info">Drying</span>
+                            {% elif plant.get_state == PLANT_STATES.STARTED %}
+                                <span class="badge bg-primary">Started</span>
+                            {% elif plant.get_state == PLANT_STATES.FLOWERING %}
+                                <span class="badge bg-warning">Flowering</span>
+                            {% elif plant.get_state == PLANT_STATES.VEGETATIVE %}
+                                <span class="badge bg-success">Vegetative</span>
+                            {% elif plant.get_state == PLANT_STATES.FINISHED %}
+                                <span class="badge bg-danger">Finished</span>
+                            {% endif %}
+                        </div>
+                        <div>
+                            {% if plant.images.last %}
+                                <img src="{{ plant.images.last.image.url }}"
+                                    alt="Plant"
+                                    width="150px"
+                                    height="230px">
+                            {% endif %}
+                        </div>
+                        <div class="ps-2 container-fluid">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="ep-plant-name">
+                                        Dates
+                                    </div>
+                                    <div class="ep-plant-start">Start: {{ plant.start|date:"SHORT_DATE_FORMAT" }}</div>
+                                    {% if plant.day_one %}
+                                        <div class="ep-plant-flowering-start">
+                                            Total Day: {{ plant.get_day_and_week.0 }}
+                                        </div>
+                                        <div class="ep-plant-flowering-start">
+                                            Total Week: {{ plant.get_day_and_week.1 }}
+                                        </div>
+                                    {% endif %}
+                                    {% if plant.flowering_start %}
+                                        <div class="ep-plant-flowering-start">Flowering Day: {{ plant.get_flowering_day_and_week.0 }}</div>
+                                        <div class="ep-plant-flowering-start">Flowering Week: {{ plant.get_flowering_day_and_week.1 }}</div>
+                                    {% endif %}
+                                    {% if plant.harvested %}
+                                        <div class="ep-plant-flowering-start pt-1">Harvested: {{ plant.harvested }}</div>
+                                        {% if plant.drying_end %}
+                                            <div class="ep-plant-flowering-start">Drying days: {{ plant.get_drying_day }}</div>
+                                        {% else %}
+                                            <div class="ep-plant-flowering-start">Drying Day: {{ plant.get_drying_day }}</div>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="ep-plant-name">Latest</div>
+                                    {% if plant.entries.exists %}
+                                        <div>Day {{ plant.entries.first.day }}: {{ plant.entries.first.text }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="ep-plant-name">Results</div>
+                                    {% if plant.get_vegative_weeks %}
+                                        <div>Duration vegative phase: {{ plant.get_vegative_weeks }}</div>
+                                    {% endif %}
+                                    {% if plant.yield_wet %}
+                                        <div>Yield wet: {{ plant.yield_wet }}g</div>
+                                    {% endif %}
+                                    {% if plant.yield_dry %}
+                                        <div>Yield dry: {{ plant.yield_dry }}g</div>
+                                    {% endif %}
+                                    {% if plant.yield_kief %}
+                                        <div>Yield kief: {{ plant.yield_kief }}g</div>
+                                    {% endif %}
+                                </div>
                             </div>
-                            <div class="ep-plant-start">Start: {{ plant.start|date:"SHORT_DATE_FORMAT" }}</div>
-                            {% if plant.day_one %}
-                                <div class="ep-plant-flowering-start">
-                                    Total Day: {{ plant.get_day_and_week.0 }}
-                                </div>
-                                <div class="ep-plant-flowering-start">
-                                    Total Week: {{ plant.get_day_and_week.1 }}
-                                </div>
-                            {% endif %}
-                            {% if plant.flowering_start %}
-                                <div class="ep-plant-flowering-start">Flowering Day: {{ plant.get_flowering_day_and_week.0 }}</div>
-                                <div class="ep-plant-flowering-start">Flowering Week: {{ plant.get_flowering_day_and_week.1 }}</div>
-                            {% endif %}
-                            {% if plant.harvested %}
-                                <div class="ep-plant-flowering-start pt-1">Harvested: {{ plant.harvested }}</div>
-                                {% if plant.drying_end %}
-                                    <div class="ep-plant-flowering-start">Drying days: {{ plant.get_drying_day }}</div>
-                                {% else %}
-                                    <div class="ep-plant-flowering-start">Drying Day: {{ plant.get_drying_day }}</div>
-                                {% endif %}
-                            {% endif %}
-                        </div>
-                        <div class="col-md-4 col-sm-12">
-                            <div class="ep-plant-name">Latest</div>
-                            {% if plant.entries.exists %}
-                                <div>Day {{ plant.entries.first.day }}: {{ plant.entries.first.text }}</div>
-                            {% endif %}
-                        </div>
-                        <div class="col-md-4 col-sm-12">
-                            <div class="ep-plant-name">Results</div>
-                            {% if plant.get_vegative_weeks %}
-                                <div>Duration vegative phase: {{ plant.get_vegative_weeks }}</div>
-                            {% endif %}
-                            {% if plant.yield_wet %}
-                                <div>Yield wet: {{ plant.yield_wet }}g</div>
-                            {% endif %}
-                            {% if plant.yield_dry %}
-                                <div>Yield dry: {{ plant.yield_dry }}g</div>
-                            {% endif %}
-                            {% if plant.yield_kief %}
-                                <div>Yield kief: {{ plant.yield_kief }}g</div>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
